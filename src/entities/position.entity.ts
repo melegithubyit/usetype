@@ -8,8 +8,8 @@ import {
 
 @Entity()
 export class Position {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn({ type: 'int' })
+  id: number;
 
   @Column()
   name: string;

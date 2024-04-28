@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+// import { DataSource } from 'typeorm';
 import { PositionModule } from './position/position.module';
 import { Position } from './entities/position.entity';
 
@@ -24,5 +24,5 @@ import { Position } from './entities/position.entity';
   providers: [AppService],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) {}
+  // constructor(private dataSource: DataSource) {}
 }

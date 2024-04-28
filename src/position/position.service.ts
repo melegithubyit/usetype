@@ -1,32 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { PositionRepository } from './position.repository';
+// import { positionRepo } from './position.repository';
 import { Position } from '../entities/position.entity';
-// import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PositionService {
-  constructor(private readonly positionRepository: PositionRepository) {}
+  constructor(
+    @InjectRepository(Position) private positionRepo: Repository<Position>,
+  ) {}
 
   async create(createPositionDto: Partial<Position>): Promise<Position> {
-    // return this.positionRepository.create(createPositionDto);
-    const newPosition = await this.positionRepository.create(createPositionDto);
-    await this.positionRepository.save(newPosition);
+    // return this.positionRepo.create(createPositionDto);
+    const newPosition = await this.positionRepo.create(createPositionDto);
+    await this.positionRepo.save(newPosition);
     return newPosition;
   }
 
   async findAll(): Promise<Position[]> {
-    return this.positionRepository.find({ relations: ['parent', 'children'] });
+    return this.positionRepo.find({ relations: ['parent', 'children'] });
   }
 
-  async findOne(id: string): Promise<Position> {
-    return this.positionRepository.findOne({
+  async findOne(id: number): Promise<Position> {
+    return this.positionRepo.findOne({
       where: { id },
       relations: ['parent', 'children'],
     });
   }
 
-  async findChildren(id: string): Promise<Position[]> {
-    const position = await this.positionRepository.findOne({
+  async findChildren(id: number): Promise<Position[]> {
+    const position = await this.positionRepo.findOne({
       where: { id },
       relations: ['children'],
     });
@@ -34,18 +37,18 @@ export class PositionService {
   }
 
   async update(
-    id: string,
+    id: number,
     updatePositionDto: Partial<Position>,
   ): Promise<Position> {
-    await this.positionRepository.update(id, updatePositionDto);
-    return this.positionRepository.findOne({
+    await this.positionRepo.update(id, updatePositionDto);
+    return this.positionRepo.findOne({
       where: { id },
       relations: ['parent', 'children'],
     });
   }
 
-  async remove(id: string): Promise<void> {
-    await this.positionRepository.delete(id);
+  async remove(id: number): Promise<void> {
+    await this.positionRepo.delete(id);
   }
   
 }

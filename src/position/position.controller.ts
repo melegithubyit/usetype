@@ -27,25 +27,25 @@ export class PositionController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Position> {
+  async findOne(@Param('id') id: number): Promise<Position> {
     return this.positionService.findOne(id);
   }
 
   @Get(':id/children')
-  async findChildren(@Param('id') id: string): Promise<Position[]> {
+  async findChildren(@Param('id') id: number): Promise<Position[]> {
     return this.positionService.findChildren(id);
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updatePositionDto: Partial<Position>,
   ): Promise<Position> {
     return this.positionService.update(id, updatePositionDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
+  async remove(@Param('id') id: number): Promise<void> {
     return this.positionService.remove(id);
   }
 
